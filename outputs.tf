@@ -17,15 +17,15 @@ output "db_instance_identifier" {
 
 output "replica_db_instance_arn" {
   description = "The ARN of the RDS replica instances"
-  value       = var.create_replica ? { for idx, instance in aws_db_instance.replica_myinstance : idx => instance.arn } : {}
+  value       = var.create_replica ? { for idx, instance in aws_db_instance.replica_instances : idx => instance.arn } : {}
 }
 
 output "replica_db_instance_endpoint" {
   description = "The connection endpoints of the RDS replica instances"
-  value       = var.create_replica ? { for idx, instance in aws_db_instance.replica_myinstance : idx => instance.endpoint } : {}
+  value       = var.create_replica ? { for idx, instance in aws_db_instance.replica_instances : idx => instance.endpoint } : {}
 }
 
 output "replica_db_instance_identifier" {
   description = "The identifiers of the RDS replica instances"
-  value       = var.create_replica ? { for idx, instance in aws_db_instance.replica_myinstance : idx => instance.identifier } : {}
+  value       = var.create_replica ? { for idx, instance in aws_db_instance.replica_instances : idx => instance.identifier } : {}
 }
