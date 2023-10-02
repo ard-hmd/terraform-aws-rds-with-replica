@@ -29,7 +29,18 @@ variable "database_configurations" {
     sg_name                 = string
     sg_description          = string
     multi_az                = bool
-    apply_immediately       = bool  # Added this property for replica configuration
+  }))
+  default = []
+}
+
+variable "replica_configurations" {
+  description = "List of replica configurations."
+  type = list(object({
+    instance_class          = string
+    multi_az                = bool
+    backup_retention_period = number
+    apply_immediately       = bool
+    identifier              = string
   }))
   default = []
 }

@@ -57,13 +57,14 @@ resource "aws_db_instance" "my_db_instances" {
 # Optional: Create RDS replica instances based on the provided configurations
 resource "aws_db_instance" "replica-myinstance" {
   count = var.create_replica ? length(var.database_configurations) : 0
+  for_each = { for idx, config in var.replica_configurations : idx => config }
 
   instance_class          = var.database_configurations[count.index].instance_class
   skip_final_snapshot     = var.database_configurations[count.index].skip_final_snapshot
-  backup_retention_period = var.database_configurations[count.index].backup_retention_period
+  backup_retention_period = each.value.backup_retention_period
   replicate_source_db     = aws_db_instance.my_db_instances[count.index].identifier
-  multi_az                = var.database_configurations[count.index].multi_az
-  apply_immediately       = var.database_configurations[count.index].apply_immediately
+  multi_az                = each.value.multi_az
+  apply_immediately       = each.value.apply_immediately
   identifier              = "${var.database_configurations[count.index].identifier}-replica"
 
   tags = {
